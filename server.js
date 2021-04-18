@@ -1,7 +1,8 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
-const dbConfig = require("./app/config/db.config.js");
+const path = require("path");
+const dbConfig = require("./backend/config/db.config.js");
 
 const app = express();
 
@@ -17,7 +18,7 @@ app.use(express.json());
 // parse requests of content-type - application/x-www-form-urlencoded
 app.use(express.urlencoded({ extended: true }));
 
-const db = require("./app/models");
+const db = require("./backend/models");
 const Role = db.role;
 
 db.mongoose
@@ -61,8 +62,12 @@ function initial() {
 }
 
 // routes
-require("./app/routes/auth.routes")(app);
-require("./app/routes/user.routes")(app);
+require("./backend/routes/auth.routes")(app);
+require("./backend/routes/user.routes")(app);
+
+app.get("*", function (req, res) {
+  res.sendFile(path.resolve(__dirname, "frontend/public/index.html"));
+});
 
 // set port, listen for requests
 const PORT = process.env.PORT || 8080;

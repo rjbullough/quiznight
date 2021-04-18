@@ -1,2 +1,2 @@
-app/config/*.js
+backend/config/db.config.js
 node_modules/
